@@ -19,7 +19,7 @@ env:
 
 jobs:
   push:
-    runs-on: ubuntu-20.04
+    runs-on: ubuntu-latest
     if: github.event_name == 'push'
 
     steps:
