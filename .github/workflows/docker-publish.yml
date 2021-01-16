@@ -9,6 +9,10 @@ on:
     tags:
       - v1.0.0
 
+  schedule:
+    # Run every day at 6pm
+    - cron:  '* 17 * * *'
+
   # Run tests for any PRs.
   pull_request:
 
