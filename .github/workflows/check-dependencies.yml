@@ -8,9 +8,6 @@ on:
   schedule:
     - cron:  '* 0 * * *'
 
-  # Allow mannual triggering
-  workflow_dispatch:
-
 jobs:
   check:
     runs-on: ubuntu-latest
