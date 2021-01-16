@@ -13,9 +13,6 @@ on:
     # Run every day at 6pm
     - cron:  '* 17 * * *'
 
-  # Run tests for any PRs.
-  pull_request:
-
 env:
   IMAGE_NAME: steamcmd
   CR_PAT: ${{ secrets.CR_PAT }}
