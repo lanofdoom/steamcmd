@@ -12,8 +12,4 @@ RUN apt-get update \
         wget \
     && apt-get clean autoclean \
     && apt-get autoremove -y \
-    && rm -rf /var/lib/apt/lists/* \
-    && rm -rf /root/Steam/logs/* \
-    && rm -rf /var/cache/* \
-    && rm -rf /var/log/* \
-    && rm /root/Steam/steamapps/libraryfolders.vdf
+    && rm -rf /var/lib/apt/lists/*

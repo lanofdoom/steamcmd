@@ -9,10 +9,6 @@ on:
     tags:
       - v1.0.0
 
-  schedule:
-    # Run every day at 18:00
-    - cron:  '* 17 * * *'
-
 env:
   IMAGE_NAME: steamcmd
   CR_PAT: ${{ secrets.CR_PAT }}
