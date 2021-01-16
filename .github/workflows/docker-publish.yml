@@ -2,12 +2,15 @@ name: Docker
 
 on:
   push:
-    # Publish `main` as Docker `latest` image.
     branches:
       - main
 
-    tags:
-      - v1.0.0
+  # Run every day at midnight
+  schedule:
+    - cron:  '* 0 * * *'
+
+  # Allow manual runs
+  workflow_dispatch:
 
 env:
   IMAGE_NAME: steamcmd
@@ -46,5 +49,24 @@ jobs:
           echo IMAGE_ID=$IMAGE_ID
           echo VERSION=$VERSION
 
+          docker inspect --format='{{.Created}}' ubuntu:focal > ubuntu-focal.ver
+          docker run $IMAGE_NAME dpkg -l > packages.ver
+          docker run $IMAGE_NAME cat /opt/steam/package/steam_cmd_linux.manifest > steam_cmd_linux.manifest
+
+          if cmp -s ubuntu-focal.ver deps/ubuntu-focal.ver && cmp -s packages.ver deps/packages.ver && cmp -s steam_cmd_linux.manifest deps/steam_cmd_linux.manifest ; then exit ; fi
+
+          mkdir -p deps
+          cp ubuntu-focal.ver deps/ubuntu-focal.ver
+          cp packages.ver deps/packages.ver
+          cp steam_cmd_linux.manifest packages/steam_cmd_linux.manifest
+
           docker tag $IMAGE_NAME $IMAGE_ID:$VERSION
           docker push $IMAGE_ID:$VERSION
+
+      - name: Update dependency versions
+        uses: JamesIves/github-pages-deploy-action@3.7.1
+        with:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          BRANCH: main
+          FOLDER: deps
+          TARGET_FOLDER: deps
