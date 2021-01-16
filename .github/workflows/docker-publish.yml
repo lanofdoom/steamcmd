@@ -47,7 +47,7 @@ jobs:
           echo VERSION=$VERSION
 
           wget https://steamcdn-a.akamaihd.net/client/installer/steamcmd_linux.tar.gz
-          sha256sum steam_cmd_linux.tar.gz > steam_cmd.ver
+          sha256sum steamcmd_linux.tar.gz > steam_cmd.ver
 
           docker inspect --format='{{.Created}}' ubuntu:focal > ubuntu-focal.ver
           docker run $IMAGE_NAME dpkg -l > packages.ver
