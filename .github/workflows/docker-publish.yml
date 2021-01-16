@@ -46,16 +46,25 @@ jobs:
           echo IMAGE_ID=$IMAGE_ID
           echo VERSION=$VERSION
 
+          wget https://steamcdn-a.akamaihd.net/client/installer/steamcmd_linux.tar.gz
+          sha256sum steam_cmd_linux.tar.gz > steam_cmd.ver
+
           docker inspect --format='{{.Created}}' ubuntu:focal > ubuntu-focal.ver
           docker run $IMAGE_NAME dpkg -l > packages.ver
           docker run $IMAGE_NAME cat /opt/steam/package/steam_cmd_linux.manifest > steam_cmd_linux.manifest
 
-          if cmp -s ubuntu-focal.ver deps/ubuntu-focal.ver && cmp -s packages.ver deps/packages.ver && cmp -s steam_cmd_linux.manifest deps/steam_cmd_linux.manifest ; then exit ; fi
+          if cmp -s ubuntu-focal.ver deps/ubuntu-focal.ver \
+             && cmp -s packages.ver deps/packages.ver \
+             && cmp -s steam_cmd_linux.manifest deps/steam_cmd_linux.manifest \
+             && cmp -s steam_cmd.ver deps/steam_cmd.ver ; \
+          then exit ; \
+          fi
 
           mkdir -p deps
           cp ubuntu-focal.ver deps/ubuntu-focal.ver
           cp packages.ver deps/packages.ver
           cp steam_cmd_linux.manifest deps/steam_cmd_linux.manifest
+          cp steam_cmd.ver deps/steam_cmd.ver
 
           docker tag $IMAGE_NAME $IMAGE_ID:$VERSION
           docker push $IMAGE_ID:$VERSION
