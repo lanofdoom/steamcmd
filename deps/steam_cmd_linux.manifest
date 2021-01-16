@@ -1,0 +1,43 @@
+"linux"
+{
+	"version"		"1608497921"
+	"steamcmd_public_all"
+	{
+		"file"		"steamcmd_public_all.zip.e61ce36efab3810390b5b5f55ee433f1fc7a04af"
+		"size"		"49303"
+		"sha2"		"74901c1f1b77aca874f3ecef4410223731cfe80e33f45f1d7e30abf5e0ef0ea0"
+	}
+	"steamcmd_bins_linux"
+	{
+		"file"		"steamcmd_bins_linux.zip.5fbd479f50c8fcf73b468717a03516c573340535"
+		"size"		"22327392"
+		"sha2"		"5f6cb86f87c382ef078a9c7ef94ad44cd80656ced2cd036a539c439c2a5ce0c3"
+		"zipvz"		"steamcmd_bins_linux.zip.vz.3404eaae88f9de7fa33858a30cfeb6567446fe31_15038396"
+		"sha2vz"		"b5cc48c6c4ca0b5f4ee0368aedb0983d844affad753baa77905593b856be9b8e"
+	}
+	"steamcmd_siteserverui_linux"
+	{
+		"file"		"steamcmd_siteserverui_linux.zip.5fb12900d7674f3ec04b9c9f73fe496e6b066976"
+		"size"		"53119241"
+		"sha2"		"244497c97aa341328e85d662e4123825a7f2586c6e8e8ed1687a31e8baa6b9aa"
+		"zipvz"		"steamcmd_siteserverui_linux.zip.vz.8d645e557fc09f9be8ea1445c6103d87782558c3_36272528"
+		"sha2vz"		"49bb22120d5ca7ee4a5e0d3d7e625d49f7af4f420304ae2a5b407de54c057a4e"
+	}
+	"steamcmd_linux"
+	{
+		"file"		"steamcmd_linux.zip.03b429e18435df8be4c608e3071049979009c84a"
+		"size"		"2062175"
+		"sha2"		"f6bb12be8d8cddae4b65ecc748dbb3e9bc506cc8b9ac4df3cf6eeb250589432a"
+		"zipvz"		"steamcmd_linux.zip.vz.c6211c9c96f2a000d9e5ce2c1ca8b404e8344c46_1592398"
+		"sha2vz"		"668fc3d0f98fc9db3e003525ccd2f659457300e4ee6ac9e2d5f230340a7ec0b1"
+		"IsBootstrapperPackage"		"1"
+	}
+}
+"kvsign2"
+{
+	"linux"		"fea846ad04380cd0e2632d3f8cf68bb7382df64706aa1f4a2c5342e17df12488cde7a48b556e73b104b6525945b317e6f1eec42422c967f7138c80afa83b820e"
+}
+"kvsignatures"
+{
+	"linux"		"2a6e1947f5c8763fc7d9f1c6718054db56104c5d0932bf656ba801f19b332df13ecd20b8b6861532bdaf0cd4f0f28aa399ddd63bd1d61414fda12e88694b6f0017704f107de21934a1e4d078896a1018082b8d607261c9713f9db8fec4a746f3b20ffdb5a4b54e2e67fedf565413390fe7557a09aaf9c7b16fa848205f9cd9c2"
+}
