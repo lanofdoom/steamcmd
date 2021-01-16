@@ -4,9 +4,9 @@
 name: Check Dependencies
 
 on:
-  # Run every hour on the hour
+  # Run every day at midnight
   schedule:
-    - cron:  '0 * * * *'
+    - cron:  '* 0 * * *'
 
   # Allow mannual triggering
   workflow_dispatch:
@@ -18,10 +18,13 @@ jobs:
     steps:
       - uses: actions/checkout@v2
 
-      - name: Grab latest version
+      - name: Pull the latest image
+        run: sudo docker pull ubuntu:focal
+
+      - name: Inspect the image build date
         run: sudo docker inspect --format='{{.Created}}' ubuntu:focal > ubuntu-focal.ver
 
-      - name: Compare versions
+      - name: Compare build dates
         run: if ! cmp -s ubuntu-focal.ver deps/ubuntu-focal.ver ; then mkdir -p deps && cp ubuntu-focal.ver deps/ubuntu-focal.ver ; fi
 
       - name: Deploy 🚀
