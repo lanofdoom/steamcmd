@@ -1,0 +1,33 @@
+# Check the latest version of the image's docker dependences and write them
+# to the deps folder if there has been an update. This commit can be used as a
+# trigger for other workflows to run.
+name: Check Dependencies
+
+on:
+  # Run every hour on the hour
+  schedule:
+    - cron:  '0 * * * *'
+
+  # Allow mannual triggering
+  workflow_dispatch:
+
+jobs:
+  check:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v2
+
+      - name: Grab latest version
+        run: sudo docker inspect --format='{{.Created}}' ubuntu:focal > ubuntu-focal.ver
+
+      - name: Compare versions
+        run: if ! cmp -s ubuntu-focal.ver deps/ubuntu-focal.ver ; then mkdir -p deps && cp ubuntu-focal.ver deps/ubuntu-focal.ver ; fi
+
+      - name: Deploy 🚀
+        uses: JamesIves/github-pages-deploy-action@3.7.1
+        with:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          BRANCH: main
+          FOLDER: deps
+          TARGET_FOLDER: deps
