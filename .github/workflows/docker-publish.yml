@@ -10,7 +10,7 @@ on:
       - v1.0.0
 
   schedule:
-    # Run every day at 6pm
+    # Run every day at 18:00
     - cron:  '* 17 * * *'
 
 env:
