@@ -14,5 +14,6 @@ RUN apt-get update \
     && apt-get autoremove -y \
     && rm -rf /var/lib/apt/lists/* \
     && rm -rf /root/Steam/logs/* \
+    && rm -rf /var/cache/* \
     && rm -rf /var/log/* \
     && rm /root/Steam/steamapps/libraryfolders.vdf
