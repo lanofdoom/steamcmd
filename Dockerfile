@@ -12,4 +12,6 @@ RUN apt-get update \
         wget \
     && apt-get clean autoclean \
     && apt-get autoremove -y \
-    && rm -rf /var/lib/apt/lists/*
+    && rm -rf /var/lib/apt/lists/* \
+    && rm -rf /root/Steam/logs/* \
+    && rm -rf /var/log/*
