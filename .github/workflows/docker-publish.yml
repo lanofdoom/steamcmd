@@ -20,62 +20,16 @@ jobs:
     steps:
       - uses: actions/checkout@v2
 
-      - name: Build image
-        run: docker build . --file Dockerfile --tag $IMAGE_NAME
+      - name: Install Bazel
+        run: |
+          apt install apt-transport-https curl gnupg
+          curl -fsSL https://bazel.build/bazel-release.pub.gpg | gpg --dearmor > bazel.gpg
+          mv bazel.gpg /etc/apt/trusted.gpg.d/
+          echo "deb [arch=amd64] https://storage.googleapis.com/bazel-apt stable jdk1.8" | sudo tee /etc/apt/sources.list.d/bazel.list
+          apt update && sudo apt install bazel
 
       - name: Log into registry
         run: echo "$CR_PAT" | docker login ghcr.io -u ${{ github.actor }} --password-stdin
 
-      - name: Push image
-        run: |
-          IMAGE_ID=ghcr.io/${{ github.repository }}/$IMAGE_NAME
-
-          # Change all uppercase to lowercase
-          IMAGE_ID=$(echo $IMAGE_ID | tr '[A-Z]' '[a-z]')
-
-          # Strip git ref prefix from version
-          VERSION=$(echo "${{ github.ref }}" | sed -e 's,.*/\(.*\),\1,')
-
-          # Strip "v" prefix from tag name
-          [[ "${{ github.ref }}" == "refs/tags/"* ]] && VERSION=$(echo $VERSION | sed -e 's/^v//')
-
-          # Use Docker `latest` tag convention
-          [ "$VERSION" == "main" ] && VERSION=latest
-
-          echo IMAGE_ID=$IMAGE_ID
-          echo VERSION=$VERSION
-
-          sha256sum Dockerfile > dockerfile.ver
-
-          wget https://steamcdn-a.akamaihd.net/client/installer/steamcmd_linux.tar.gz
-          sha256sum steamcmd_linux.tar.gz > steam_cmd.ver
-
-          docker inspect --format='{{.Created}}' ubuntu:focal > ubuntu-focal.ver
-          docker run $IMAGE_NAME dpkg -l > packages.ver
-          docker run $IMAGE_NAME cat /opt/steam/package/steam_cmd_linux.manifest > steam_cmd_linux.manifest
-
-          cp -r deps deps_tmp
-          if cmp -s dockerfile.ver deps/dockerfile.ver \
-             && cmp -s ubuntu-focal.ver deps/ubuntu-focal.ver \
-             && cmp -s packages.ver deps/packages.ver \
-             && cmp -s steam_cmd_linux.manifest deps/steam_cmd_linux.manifest \
-             && cmp -s steam_cmd.ver deps/steam_cmd.ver ; \
-          then exit ; \
-          fi
-
-          mv -f dockerfile.ver deps_tmp/dockerfile.ver
-          mv -f ubuntu-focal.ver deps_tmp/ubuntu-focal.ver
-          mv -f packages.ver deps_tmp/packages.ver
-          mv -f steam_cmd_linux.manifest deps_tmp/steam_cmd_linux.manifest
-          mv -f steam_cmd.ver deps_tmp/steam_cmd.ver
-
-          docker tag $IMAGE_NAME $IMAGE_ID:$VERSION
-          docker push $IMAGE_ID:$VERSION
-
-      - name: Update dependency versions
-        uses: JamesIves/github-pages-deploy-action@3.7.1
-        with:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          BRANCH: main
-          FOLDER: deps_tmp
-          TARGET_FOLDER: deps
+      - name: Build and push image
+        run: bazel run :push_steamcmd_image

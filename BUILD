@@ -59,7 +59,7 @@ install_pkgs(
 )
 
 container_image(
-    name = "steamcmd",
+    name = "steamcmd_image",
     compression = "gzip",
     base = "steamcmd_runtime_deps_image.tar",
     tars = [
@@ -69,7 +69,7 @@ container_image(
 
 container_push(
    name = "push_steamcmd_image",
-   image = ":steamcmd",
+   image = ":steamcmd_image",
    format = "Docker",
    registry = "ghcr.io",
    repository = "lanofdoom/steamcmd/steamcmd",
