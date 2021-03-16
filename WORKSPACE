@@ -31,5 +31,5 @@ container_pull(
     name = "steamcmd_runtime_base",
     registry = "index.docker.io",
     repository = "library/ubuntu",
-    tag = "focal",
+    tag = "bionic",
 )
