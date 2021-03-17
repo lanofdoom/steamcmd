@@ -60,7 +60,6 @@ install_pkgs(
 
 container_image(
     name = "steamcmd_image",
-    compression = "gzip",
     base = "steamcmd_runtime_deps_image.tar",
     tars = [
         ":install_steamcmd/steam.tar",
